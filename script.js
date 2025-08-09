@@ -1,104 +1,104 @@
-// Animasi untuk hero section
-anime({
-    targets: '.hero-content .logo',
-    scale: [0.8, 1], // Skala lebih kecil untuk efek subtil
-    opacity: [0, 1],
-    duration: 1200, // Durasi lebih lambat
-    easing: 'easeOutQuad'
-});
+// Animasi awal untuk hero section dan judul
+anime({ targets: '.hero-content .logo', scale: [0.8, 1], opacity: [0, 1], duration: 1200, easing: 'easeOutQuad' });
+anime({ targets: '.hero-content .title', translateY: [-20, 0], opacity: [0, 1], duration: 1000, easing: 'easeOutQuad', delay: 200 });
+anime({ targets: '.hero-content .subtitle', translateY: [20, 0], opacity: [0, 1], duration: 1000, easing: 'easeOutQuad', delay: anime.stagger(150, { start: 400 }) });
+anime({ targets: '.section-title', translateY: [20, 0], opacity: [0, 1], duration: 1000, easing: 'easeOutQuad' });
 
-anime({
-    targets: '.hero-content .title',
-    translateY: [-20, 0],
-    opacity: [0, 1],
-    duration: 1000,
-    easing: 'easeOutQuad',
-    delay: 200
-});
+// Listener utama yang dijalankan setelah semua elemen halaman dimuat
+document.addEventListener('DOMContentLoaded', () => {
 
-anime({
-    targets: '.hero-content .subtitle',
-    translateY: [20, 0],
-    opacity: [0, 1],
-    duration: 1000,
-    easing: 'easeOutQuad',
-    delay: anime.stagger(150, { start: 400 })
-});
+    // --- LOGIKA MENU NAVIGASI (DARI LANGKAH 1) ---
+    const menuIcon = document.querySelector('.menu-icon');
+    const navPanel = document.querySelector('.nav-panel');
+    const closeIcon = document.querySelector('.nav-close-icon');
+    const navLinks = document.querySelectorAll('.nav-link');
 
-// Animasi untuk section title
-anime({
-    targets: '.section-title',
-    translateY: [20, 0], // Ganti scale dengan translateY untuk efek masuk halus
-    opacity: [0, 1],
-    duration: 1000,
-    easing: 'easeOutQuad'
-});
+    if (menuIcon && navPanel && closeIcon) {
+        menuIcon.addEventListener('click', () => navPanel.classList.add('open'));
+        closeIcon.addEventListener('click', () => navPanel.classList.remove('open'));
+    }
 
-// Animasi scroll-based untuk petugas items menggunakan Intersection Observer
-const items = document.querySelectorAll('.animate-on-scroll');
-
-const observer = new IntersectionObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const item = entry.target;
-                const direction = item.dataset.direction || 'left';
-                const translateXStart = direction === 'left' ? -50 : 50; // Jarak lebih kecil
-
-                anime({
-                    targets: item,
-                    translateX: [translateXStart, 0],
-                    opacity: [0, 1],
-                    duration: 1000, // Durasi lebih lambat untuk efek halus
-                    easing: 'easeOutQuad', // Easing lebih lembut
-                    delay: anime.stagger(200, { start: 100 }) // Stagger lebih lambat
-                });
-
-                item.classList.add('visible');
-                observer.unobserve(item);
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetElement = document.querySelector(link.getAttribute('href'));
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            if (navPanel) {
+                navPanel.classList.remove('open');
             }
         });
-    },
-    { threshold: 0.3 }
-);
+    });
 
-items.forEach((item) => observer.observe(item));
+    // --- LOGIKA TOMBOL GULIR BAWAH (DARI LANGKAH 2) ---
+    const scrollDownBtn = document.querySelector('.scroll-down-btn');
+    if (scrollDownBtn) {
+        scrollDownBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetElement = document.querySelector(scrollDownBtn.getAttribute('href'));
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
 
-// Efek paralaks dan opacity pada hero section saat scroll
-window.addEventListener('scroll', () => {
-    const hero = document.querySelector('.hero');
-    const heroContent = document.querySelector('.hero-content');
-    const scrollPosition = window.scrollY;
-    const heroHeight = hero.offsetHeight;
-
-    hero.style.backgroundPositionY = `${scrollPosition * 0.2}px`; // Paralaks lebih subtil
-    const opacity = Math.max(1 - scrollPosition / (heroHeight * 0.6), 0);
-    heroContent.style.opacity = opacity;
-
-    const logo = document.querySelector('.logo');
-    const scale = Math.max(1 - scrollPosition / (heroHeight * 3), 0.9); // Skala lebih kecil
-    logo.style.transform = `scale(${scale})`;
-});
-
-// Animasi untuk footer saat masuk viewport
-const footer = document.querySelector('footer');
-const footerObserver = new IntersectionObserver(
-    (entries) => {
-        entries.forEach((entry) => {
+    // --- OBSERVER UNTUK ANIMASI SAAT GULIR ---
+    const animatedItems = document.querySelectorAll('.animate-on-scroll');
+    const itemObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
             if (entry.isIntersecting) {
+                const item = entry.target;
                 anime({
-                    targets: footer,
-                    translateY: [20, 0], // Jarak lebih kecil
+                    targets: item,
+                    translateY: [30, 0],
+                    scale: [0.95, 1],
                     opacity: [0, 1],
-                    duration: 1000, // Durasi lebih lambat
-                    easing: 'easeOutQuad',
-                    delay: 200
+                    duration: 800,
+                    easing: 'easeOutCubic',
+                    delay: anime.stagger(100)
                 });
+                itemObserver.unobserve(item);
+            }
+        });
+    }, { threshold: 0.2 }); // Trigger sedikit lebih awal
+    animatedItems.forEach(item => itemObserver.observe(item));
+
+    // --- OBSERVER UNTUK ANIMASI FOOTER ---
+    const footer = document.querySelector('footer');
+    const footerObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                anime({ targets: footer, translateY: [20, 0], opacity: [0, 1], duration: 1000, easing: 'easeOutQuad', delay: 200 });
                 footerObserver.unobserve(footer);
             }
         });
-    },
-    { threshold: 0.2 }
-);
+    }, { threshold: 0.2 });
+    if (footer) {
+        footerObserver.observe(footer);
+    }
+});
 
-footerObserver.observe(footer);
+// --- EFEK PARALAKS DAN OPACITY SAAT GULIR (DARI LANGKAH 2) ---
+window.addEventListener('scroll', () => {
+    const hero = document.querySelector('.hero');
+    const heroContent = document.querySelector('.hero-content');
+    const logo = document.querySelector('.logo');
+    const scrollPosition = window.scrollY;
+
+    if (hero) {
+        const heroHeight = hero.offsetHeight;
+        // Efek paralaks pada background
+        hero.style.backgroundPositionY = `${scrollPosition * 0.4}px`;
+
+        // Efek opacity pada konten hero
+        if (heroContent) {
+            heroContent.style.opacity = Math.max(1 - scrollPosition / (heroHeight * 0.6), 0);
+        }
+
+        // Efek skala pada logo
+        if (logo) {
+            logo.style.transform = `scale(${Math.max(1 - scrollPosition / (heroHeight * 3), 0.9)})`;
+        }
+    }
+});
