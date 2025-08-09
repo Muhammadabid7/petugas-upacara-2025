@@ -10,9 +10,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="menu-icon">
-        <i class="fas fa-bars"></i>
+    <div id="loader-container">
+        <div class="loader-content">
+            <div class="morph-loader"></div>
+            <div class="loader-text">
+                <h1>Memuat...</h1>
+                <p>HUT RI ke-80</p>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
     </div>
+
+    <main id="main-content">
+        <div class="menu-icon">
+            <i class="fas fa-bars"></i>
+        </div>
 
     <nav class="nav-panel">
         <div class="nav-close-icon">
@@ -115,5 +129,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="script.js"></script>
+    </main>
 </body>
 </html>

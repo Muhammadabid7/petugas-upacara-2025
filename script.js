@@ -1,8 +1,40 @@
-// Animasi awal untuk hero section dan judul
-anime({ targets: '.hero-content .logo', scale: [0.8, 1], opacity: [0, 1], duration: 1200, easing: 'easeOutQuad' });
-anime({ targets: '.hero-content .title', translateY: [-20, 0], opacity: [0, 1], duration: 1000, easing: 'easeOutQuad', delay: 200 });
-anime({ targets: '.hero-content .subtitle', translateY: [20, 0], opacity: [0, 1], duration: 1000, easing: 'easeOutQuad', delay: anime.stagger(150, { start: 400 }) });
-anime({ targets: '.section-title', translateY: [20, 0], opacity: [0, 1], duration: 1000, easing: 'easeOutQuad' });
+// --- LOGIKA LAYAR PEMUATAN ---
+window.onload = () => {
+    const loaderContainer = document.querySelector('#loader-container');
+    const mainContent = document.querySelector('#main-content');
+
+    setTimeout(() => {
+        anime({
+            targets: loaderContainer,
+            opacity: 0,
+            duration: 500,
+            easing: 'easeInOutQuad',
+            complete: () => {
+                loaderContainer.style.display = 'none';
+                mainContent.style.display = 'block';
+
+                // Animasikan konten utama masuk
+                anime({
+                    targets: mainContent,
+                    opacity: [0, 1],
+                    duration: 500,
+                    easing: 'easeInOutQuad'
+                });
+
+                // Jalankan animasi hero section SETELAH konten utama muncul
+                runIntroAnimations();
+            }
+        });
+    }, 3000); // Penundaan 3 detik
+};
+
+function runIntroAnimations() {
+    // Animasi awal untuk hero section dan judul
+    anime({ targets: '.hero-content .logo', scale: [0.8, 1], opacity: [0, 1], duration: 1200, easing: 'easeOutQuad' });
+    anime({ targets: '.hero-content .title', translateY: [-20, 0], opacity: [0, 1], duration: 1000, easing: 'easeOutQuad', delay: 200 });
+    anime({ targets: '.hero-content .subtitle', translateY: [20, 0], opacity: [0, 1], duration: 1000, easing: 'easeOutQuad', delay: anime.stagger(150, { start: 400 }) });
+    anime({ targets: '.section-title', translateY: [20, 0], opacity: [0, 1], duration: 1000, easing: 'easeOutQuad' });
+}
 
 // Fungsi helper untuk gulir halus menggunakan anime.js
 function scrollToTarget(targetSelector) {
@@ -59,8 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             const item = entry.target;
             if (entry.isIntersecting) {
-                // Animate In
-                anime.remove(item); // Hapus animasi yang sedang berjalan jika ada
+                anime.remove(item);
                 anime({
                     targets: item,
                     translateY: 0,
@@ -71,21 +102,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     delay: anime.stagger(100)
                 });
             } else {
-                // Reset (Animate Out)
-                anime.remove(item); // Hapus animasi yang sedang berjalan jika ada
+                anime.remove(item);
                 anime({
                     targets: item,
                     translateY: 30,
                     scale: 0.95,
                     opacity: 0,
-                    duration: 400, // Durasi reset lebih cepat
+                    duration: 400,
                     easing: 'easeInCubic'
                 });
             }
         });
     }, { threshold: 0.2 });
     animatedItems.forEach(item => {
-        // Atur state awal elemen sebelum diamati
         item.style.opacity = 0;
         item.style.transform = 'translateY(30px) scale(0.95)';
         itemObserver.observe(item);
