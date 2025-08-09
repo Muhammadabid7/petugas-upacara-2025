@@ -35,7 +35,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(255, 0, 0, 0.4), rgba(255, 255, 255, 0.4)); /* Overlay lebih subtil */
+    background: linear-gradient(rgba(255, 0, 0, 0.3), rgba(255, 255, 255, 0.3)); /* Overlay lebih halus */
     z-index: 1;
 }
 
@@ -47,11 +47,34 @@ body {
     transition: opacity 0.5s ease; /* Transisi lebih lambat untuk profesional */
 }
 
+.scroll-down-btn {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 2rem;
+    text-decoration: none;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-20px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+}
+
 .logo {
     width: 150px;
     margin-bottom: 15px;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-    animation: pulse 3s infinite; /* Animasi pulse lebih lambat */
+    animation: pulse 3s 1; /* Animasi pulse hanya sekali */
     transition: transform 0.5s ease;
 }
 
@@ -104,17 +127,17 @@ body {
 }
 
 .petugas-item {
-    background: #f5f5f5;
+    background: #ffffff; /* Ganti ke putih bersih */
     padding: 25px;
     border-radius: 15px;
-    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.1), -8px -8px 16px rgba(255, 255, 255, 0.9);
-    transition: transform 0.5s ease; /* Transisi lebih halus */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Bayangan lebih lembut */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transisi lebih halus */
     text-align: center;
 }
 
 .petugas-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.15), -12px -12px 24px rgba(255, 255, 255, 0.95);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12); /* Bayangan sedikit lebih besar saat hover */
 }
 
 .petugas-item i {
@@ -152,29 +175,209 @@ body {
 
 footer {
     text-align: center;
-    padding: 25px 20px;
-    background: linear-gradient(135deg, #ff0000, #ffffff);
-    color: #333;
+    padding: 30px 20px;
+    background: #2c2c2c; /* Latar belakang gelap yang elegan */
+    color: #f5f5f5; /* Teks putih agar kontras */
     font-size: 0.9rem;
-    transition: all 0.5s ease; /* Transisi lebih halus */
+    transition: all 0.3s ease;
 }
 
 footer p {
     margin: 5px 0;
+    opacity: 0.8; /* Sedikit transparan agar tidak terlalu mencolok */
 }
 
 .social-icons {
-    margin-top: 8px;
+    margin-top: 15px;
 }
 
 .social-icons a {
-    color: #333;
-    font-size: 1.3rem;
-    margin: 0 8px;
-    transition: color 0.5s ease;
+    color: #f5f5f5; /* Ikon putih */
+    font-size: 1.5rem; /* Sedikit lebih besar */
+    margin: 0 12px;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .social-icons a:hover {
+    color: #ff0000; /* Warna aksen merah saat hover */
+    transform: translateY(-3px); /* Efek angkat saat hover */
+}
+
+/* --- Loader Styles --- */
+#loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#main-content {
+    display: none; /* Sembunyikan konten utama pada awalnya */
+}
+
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.morph-loader {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #d92525, #ffffff);
+    animation: morph 3s ease-in-out infinite;
+    filter: blur(1px);
+    box-shadow: 0 0 20px rgba(217, 37, 37, 0.7);
+    position: relative;
+}
+
+.morph-loader::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    background: linear-gradient(45deg, #d92525, #ffffff);
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.7;
+    animation: morph 3s ease-in-out infinite reverse;
+}
+
+@keyframes morph {
+    0%, 100% { border-radius: 50%; transform: rotate(0deg) scale(1); }
+    25% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; transform: rotate(45deg) scale(0.9); }
+    50% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: rotate(90deg) scale(1.1); }
+    75% { border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%; transform: rotate(135deg) scale(0.95); }
+}
+
+.loader-text {
+    text-align: center;
+}
+
+.loader-text h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 0 0 10px rgba(217, 37, 37, 0.5);
+}
+
+.loader-text p {
+    color: #555;
+}
+
+.progress-bar-container {
+    width: 256px;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 100%; /* Dijalankan oleh JS nanti, untuk sekarang 100% */
+    height: 4px;
+    background: linear-gradient(90deg, #ff0000, #d92525);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: 2px;
+}
+
+
+/* Menu Navigasi */
+.menu-icon {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.menu-icon:hover {
+    transform: scale(1.1);
+}
+
+.menu-icon i {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.nav-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100%;
+    background: #fff;
+    z-index: 1001;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.nav-panel.open {
+    transform: translateX(0);
+}
+
+.nav-close-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.nav-close-icon i {
+    font-size: 1.8rem;
+    color: #333;
+    transition: transform 0.3s ease;
+}
+
+.nav-close-icon:hover i {
+    transform: rotate(90deg);
+    color: #ff0000;
+}
+
+.nav-panel ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 80px;
+}
+
+.nav-panel ul li a {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-panel ul li a:hover {
+    background-color: #f5f5f5;
     color: #ff0000;
 }
 
@@ -191,6 +394,9 @@ footer p {
 }
 
 @media (max-width: 768px) {
+    #loader-container h1 {
+        font-size: 2.5rem;
+    }
     .title {
         font-size: 2rem;
     }
