@@ -342,6 +342,18 @@ function HeaderNav({ onNavClick }: { onNavClick: (id: string) => void }) {
             </nav>
           </SheetContent>
         </Sheet>
+        <div className="flex flex-col items-center">
+          <div className="rounded-full bg-white/80 p-1 shadow">
+            <Image
+              src="/images/80.png"
+              alt="Logo 80"
+              width={44}
+              height={44}
+              className="h-11 w-11 object-contain"
+            />
+          </div>
+          <span className="sr-only">SMK Muhammadiyah 1 Sangatta</span>
+        </div>
         <div className="w-10" />
       </div>
     </div>
