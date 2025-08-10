@@ -1,10 +1,16 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import {
   ChevronDown,
   Flag,
@@ -18,12 +24,12 @@ import {
   Instagram,
   MessageCircle,
   Send,
-} from "lucide-react"
-import { HandIcon } from "lucide-react" // Declare the variable before using it
+} from "lucide-react";
+import { HandIcon } from "lucide-react";
 
 type RoleItem =
   | { id: string; icon: JSX.Element; title: string; names: string[] }
-  | { id: string; icon: JSX.Element; title: string; name: string }
+  | { id: string; icon: JSX.Element; title: string; name: string };
 
 const roles: RoleItem[] = [
   { id: "petugas-mc", icon: <Mic className="h-6 w-6" />, title: "MC", name: "Astrid" },
@@ -45,48 +51,254 @@ const roles: RoleItem[] = [
     names: ["Muhammad Ridwan Wahid", "Ibnu Ephrisal P.", "Fathi Putra Prasetyo"],
   },
   { id: "petugas-dirigen", icon: <Music className="h-6 w-6" />, title: "Dirigen", name: "Aisyah Aqliyah" },
-]
+];
 
 function Loader() {
-  const [progress, setProgress] = useState(0)
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const start = Date.now()
-    const total = 2300 // ms
-    const t = setInterval(() => {
-      const elapsed = Date.now() - start
-      const pct = Math.min(100, Math.round((elapsed / total) * 100))
-      setProgress(pct)
-      if (pct >= 100) clearInterval(t)
-    }, 16)
-    return () => clearInterval(t)
-  }, [])
+    const t = setTimeout(() => setLoading(false), 2400);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (!loading) return null;
+
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-neutral-50">
-      <div className="flex flex-col items-center gap-6 px-6">
-        <div className="relative h-24 w-24">
-          <div className="absolute inset-0 animate-[spin_6s_linear_infinite] rounded-full bg-gradient-to-tr from-red-600 to-white opacity-40 blur-md" />
-          <div className="absolute inset-2 rounded-[40%] bg-gradient-to-br from-red-600 to-white animate-[pulse_2.4s_ease-in-out_infinite]" />
-        </div>
-        <div className="text-center">
-          <h1 className="text-3xl font-extrabold tracking-tight text-neutral-800">Memuat...</h1>
-          <p className="text-neutral-600">HUT RI ke-80</p>
-        </div>
-        <div className="h-1 w-64 overflow-hidden rounded bg-neutral-200">
-          <div
-            className="h-1 bg-gradient-to-r from-red-600 to-red-500 transition-[width]"
-            style={{ width: progress + "%" }}
-          />
-        </div>
-      </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#212121]">
+      <svg viewBox="0 0 240 240" height="240" width="240" className="pl">
+        <circle
+          strokeLinecap="round"
+          strokeDashoffset="-330"
+          strokeDasharray="0 660"
+          strokeWidth="20"
+          stroke="#f42f25"
+          fill="none"
+          r="105"
+          cy="120"
+          cx="120"
+          className="pl__ring pl__ring--a"
+        ></circle>
+        <circle
+          strokeLinecap="round"
+          strokeDashoffset="-110"
+          strokeDasharray="0 220"
+          strokeWidth="20"
+          stroke="#ffdd00"
+          fill="none"
+          r="35"
+          cy="120"
+          cx="120"
+          className="pl__ring pl__ring--b"
+        ></circle>
+        <circle
+          strokeLinecap="round"
+          strokeDasharray="0 440"
+          strokeWidth="20"
+          stroke="#255ff4"
+          fill="none"
+          r="70"
+          cy="120"
+          cx="85"
+          className="pl__ring pl__ring--c"
+        ></circle>
+        <circle
+          strokeLinecap="round"
+          strokeDasharray="0 440"
+          strokeWidth="20"
+          stroke="#2cf425"
+          fill="none"
+          r="70"
+          cy="120"
+          cx="155"
+          className="pl__ring pl__ring--d"
+        ></circle>
+      </svg>
+      <style jsx>{`
+        .pl {
+          width: 6em;
+          height: 6em;
+        }
+
+        .pl__ring {
+          animation: ringA 2s linear infinite;
+        }
+
+        .pl__ring--a {
+          stroke: #f42f25;
+        }
+
+        .pl__ring--b {
+          animation-name: ringB;
+          stroke: #ffdd00;
+        }
+
+        .pl__ring--c {
+          animation-name: ringC;
+          stroke: #255ff4;
+        }
+
+        .pl__ring--d {
+          animation-name: ringD;
+          stroke: #2cf425;
+        }
+
+        @keyframes ringA {
+          from, 4% {
+            stroke-dasharray: 0 660;
+            stroke-width: 20;
+            stroke-dashoffset: -330;
+          }
+          12% {
+            stroke-dasharray: 60 600;
+            stroke-width: 30;
+            stroke-dashoffset: -335;
+          }
+          32% {
+            stroke-dasharray: 60 600;
+            stroke-width: 30;
+            stroke-dashoffset: -595;
+          }
+          40%, 54% {
+            stroke-dasharray: 0 660;
+            stroke-width: 20;
+            stroke-dashoffset: -660;
+          }
+          62% {
+            stroke-dasharray: 60 600;
+            stroke-width: 30;
+            stroke-dashoffset: -665;
+          }
+          82% {
+            stroke-dasharray: 60 600;
+            stroke-width: 30;
+            stroke-dashoffset: -925;
+          }
+          90%, to {
+            stroke-dasharray: 0 660;
+            stroke-width: 20;
+            stroke-dashoffset: -990;
+          }
+        }
+
+        @keyframes ringB {
+          from, 12% {
+            stroke-dasharray: 0 220;
+            stroke-width: 20;
+            stroke-dashoffset: -110;
+          }
+          20% {
+            stroke-dasharray: 20 200;
+            stroke-width: 30;
+            stroke-dashoffset: -115;
+          }
+          40% {
+            stroke-dasharray: 20 200;
+            stroke-width: 30;
+            stroke-dashoffset: -195;
+          }
+          48%, 62% {
+            stroke-dasharray: 0 220;
+            stroke-width: 20;
+            stroke-dashoffset: -220;
+          }
+          70% {
+            stroke-dasharray: 20 200;
+            stroke-width: 30;
+            stroke-dashoffset: -225;
+          }
+          90% {
+            stroke-dasharray: 20 200;
+            stroke-width: 30;
+            stroke-dashoffset: -305;
+          }
+          98%, to {
+            stroke-dasharray: 0 220;
+            stroke-width: 20;
+            stroke-dashoffset: -330;
+          }
+        }
+
+        @keyframes ringC {
+          from {
+            stroke-dasharray: 0 440;
+            stroke-width: 20;
+            stroke-dashoffset: 0;
+          }
+          8% {
+            stroke-dasharray: 40 400;
+            stroke-width: 30;
+            stroke-dashoffset: -5;
+          }
+          28% {
+            stroke-dasharray: 40 400;
+            stroke-width: 30;
+            stroke-dashoffset: -175;
+          }
+          36%, 58% {
+            stroke-dasharray: 0 440;
+            stroke-width: 20;
+            stroke-dashoffset: -220;
+          }
+          66% {
+            stroke-dasharray: 40 400;
+            stroke-width: 30;
+            stroke-dashoffset: -225;
+          }
+          86% {
+            stroke-dasharray: 40 400;
+            stroke-width: 30;
+            stroke-dashoffset: -395;
+          }
+          94%, to {
+            stroke-dasharray: 0 440;
+            stroke-width: 20;
+            stroke-dashoffset: -440;
+          }
+        }
+
+        @keyframes ringD {
+          from, 8% {
+            stroke-dasharray: 0 440;
+            stroke-width: 20;
+            stroke-dashoffset: 0;
+          }
+          16% {
+            stroke-dasharray: 40 400;
+            stroke-width: 30;
+            stroke-dashoffset: -5;
+          }
+          36% {
+            stroke-dasharray: 40 400;
+            stroke-width: 30;
+            stroke-dashoffset: -175;
+          }
+          44%, 50% {
+            stroke-dasharray: 0 440;
+            stroke-width: 20;
+            stroke-dashoffset: -220;
+          }
+          58% {
+            stroke-dasharray: 40 400;
+            stroke-width: 30;
+            stroke-dashoffset: -225;
+          }
+          78% {
+            stroke-dasharray: 40 400;
+            stroke-width: 30;
+            stroke-dashoffset: -395;
+          }
+          86%, to {
+            stroke-dasharray: 0 440;
+            stroke-width: 20;
+            stroke-dashoffset: -440;
+          }
+        }
+      `}</style>
     </div>
-  )
+  );
 }
 
-function HeaderNav({
-  onNavClick,
-}: {
-  onNavClick: (id: string) => void
-}) {
+function HeaderNav({ onNavClick }: { onNavClick: (id: string) => void }) {
   const items = [
     { id: "petugas-mc", label: "MC" },
     { id: "petugas-pancasila", label: "Pancasila" },
@@ -97,7 +309,7 @@ function HeaderNav({
     { id: "petugas-barisan", label: "Pemimpin Barisan" },
     { id: "petugas-pengibar", label: "Pengibar Bendera" },
     { id: "petugas-dirigen", label: "Dirigen" },
-  ]
+  ];
   return (
     <div className="fixed inset-x-0 top-0 z-40">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3">
@@ -119,9 +331,9 @@ function HeaderNav({
                   variant="ghost"
                   className="justify-start text-base"
                   onClick={() => {
-                    onNavClick(it.id)
-                    const el = document.querySelector<HTMLElement>("[data-state='open'][role='dialog']")
-                    el?.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }))
+                    onNavClick(it.id);
+                    const el = document.querySelector<HTMLElement>("[data-state='open'][role='dialog']");
+                    el?.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
                   }}
                 >
                   {it.label}
@@ -145,38 +357,33 @@ function HeaderNav({
         <div className="w-10" />
       </div>
     </div>
-  )
+  );
 }
 
-function Hero({
-  onScrollDown,
-}: {
-  onScrollDown: () => void
-}) {
-  const layerRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
+function Hero({ onScrollDown }: { onScrollDown: () => void }) {
+  const layerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
-      const y = window.scrollY
+      const y = window.scrollY;
       if (layerRef.current) {
-        layerRef.current.style.transform = `translateY(${y * 0.3}px)`
+        layerRef.current.style.transform = `translateY(${y * 0.3}px)`;
       }
       if (contentRef.current) {
-        const h = window.innerHeight
-        const opacity = Math.max(0, 1 - y / (h * 0.7))
-        contentRef.current.style.opacity = String(opacity)
-        contentRef.current.style.transform = `translateY(${y * 0.08}px)`
+        const h = window.innerHeight;
+        const opacity = Math.max(0, 1 - y / (h * 0.7));
+        contentRef.current.style.opacity = String(opacity);
+        contentRef.current.style.transform = `translateY(${y * 0.08}px)`;
       }
-    }
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <header className="relative isolate grid min-h-[100svh] place-items-center overflow-hidden bg-black">
-      {/* Parallax background image */}
       <div ref={layerRef} className="pointer-events-none absolute inset-0 -z-10">
         <Image src="/images/bg.jpg" alt="Dirgahayu Republik Indonesia 80" fill priority className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-red-600/70 via-red-600/40 to-white/10" />
@@ -210,35 +417,35 @@ function Hero({
         <span className="sr-only">Gulir ke bawah</span>
       </Button>
     </header>
-  )
+  );
 }
 
 function PetugasSection() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const cards = containerRef.current?.querySelectorAll<HTMLElement>("[data-animate='card']")
-    if (!cards || cards.length === 0) return
+    const cards = containerRef.current?.querySelectorAll<HTMLElement>("[data-animate='card']");
+    if (!cards || cards.length === 0) return;
 
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          const el = e.target as HTMLElement
+          const el = e.target as HTMLElement;
           if (e.isIntersecting) {
-            el.classList.add("opacity-100", "translate-y-0", "scale-100")
-            el.classList.remove("opacity-0", "translate-y-6", "scale-[0.98]")
+            el.classList.add("opacity-100", "translate-y-0", "scale-100");
+            el.classList.remove("opacity-0", "translate-y-6", "scale-[0.98]");
           } else {
-            el.classList.add("opacity-0", "translate-y-6", "scale-[0.98]")
-            el.classList.remove("opacity-100", "translate-y-0", "scale-100")
+            el.classList.add("opacity-0", "translate-y-6", "scale-[0.98]");
+            el.classList.remove("opacity-100", "translate-y-0", "scale-100");
           }
-        })
+        });
       },
       { threshold: 0.18 },
-    )
+    );
 
-    cards.forEach((c) => io.observe(c))
-    return () => io.disconnect()
-  }, [])
+    cards.forEach((c) => io.observe(c));
+    return () => io.disconnect();
+  }, []);
 
   return (
     <section className="bg-white py-14 sm:py-18" id="petugas">
@@ -251,7 +458,7 @@ function PetugasSection() {
         <div ref={containerRef} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {roles.map((item, idx) => {
             const isList = (it: RoleItem): it is Extract<RoleItem, { names: string[] }> =>
-              (it as any).names !== undefined
+              (it as any).names !== undefined;
             return (
               <Card
                 key={item.id}
@@ -280,12 +487,12 @@ function PetugasSection() {
                   )}
                 </CardContent>
               </Card>
-            )
+            );
           })}
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 function Footer() {
@@ -325,33 +532,26 @@ function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
 
 export default function Page() {
-  const [loading, setLoading] = useState(true)
-  // Simulate initial loading like your current site
-  useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 2400)
-    return () => clearTimeout(t)
-  }, [])
-
   const handleScrollTo = (id: string) => {
-    const el = document.getElementById(id)
-    if (!el) return
-    const y = el.getBoundingClientRect().top + window.scrollY - 80
-    window.scrollTo({ top: y, behavior: "smooth" })
-  }
+    const el = document.getElementById(id);
+    if (!el) return;
+    const y = el.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  };
 
-  const scrollDown = () => handleScrollTo("petugas")
+  const scrollDown = () => handleScrollTo("petugas");
 
   return (
     <main className="min-h-screen">
-      {loading && <Loader />}
+      <Loader />
       <HeaderNav onNavClick={handleScrollTo} />
       <Hero onScrollDown={scrollDown} />
       <PetugasSection />
       <Footer />
     </main>
-  )
+  );
 }
