@@ -38,7 +38,7 @@ petugas-upacara-2025/
 ---
 
 🚀 Cara Menjalankan Project Secara Lokal
-
+```bash
 1. Clone repository
 
 git clone https://github.com/Muhammadabid7/petugas-upacara-2025.git
@@ -62,9 +62,7 @@ yarn dev
 4. Akses di browser
 
 http://localhost:3000
-
-
-
+```
 
 ---
 
