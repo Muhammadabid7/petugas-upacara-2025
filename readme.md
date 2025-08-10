@@ -33,7 +33,7 @@ petugas-upacara-2025/
 ├── next.config.mjs  # Konfigurasi Next.js
 ├── tsconfig.json    # Konfigurasi TypeScript
 └── netlify.toml     # Konfigurasi deployment Netlify
-
+```
 
 ---
 
